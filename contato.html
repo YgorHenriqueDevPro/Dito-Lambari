@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dito Lambari - Contato</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <a class="navbar-brand" href="index.html">Dito Lambari</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="index.html">Pagina Principal</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="sobre.html">Sobre</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="receitas.html">Cardápio</a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="contato.html">Contato</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link btn btn-light text-primary" href="pedido.html">Pedido</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="container my-5">
+        <h1 class="text-center">Contato</h1>
+        <p>Entre em contato conosco através das redes sociais ou do WhatsApp.</p>
+        <ul class="list-inline text-center">
+            <li class="list-inline-item">
+                <a href="https://wa.me/559999999999" class="btn btn-success"><i class="fab fa-whatsapp"></i> WhatsApp</a>
+            </li>
+            <li class="list-inline-item">
+                <a href="https://facebook.com" class="btn btn-primary"><i class="fab fa-facebook-f"></i> Facebook</a>
+            </li>
+            <li class="list-inline-item">
+                <a href="https://instagram.com" class="btn btn-danger"><i class="fab fa-instagram"></i> Instagram</a>
+            </li>
+        </ul>
+
+        <form class="mt-4">
+            <div class="form-group">
+                <label for="name">Nome</label>
+                <input type="text" class="form-control" id="name" placeholder="Seu Nome">
+            </div>
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" class="form-control" id="email" placeholder="Seu Email">
+            </div>
+            <div class="form-group">
+                <label for="message">Mensagem</label>
+                <textarea class="form-control" id="message" rows="4" placeholder="Sua Mensagem"></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">Enviar</button>
+        </form>
+    </main>
+
+    <!-- Footer -->
+    <footer class="text-center py-4 bg-primary text-white">
+        <p>&copy; Aluno - YGor Henrique Santos Meira. Todos os direitos reservados.</p>
+    </footer>
+
+    <script src="scripts.js"></script>
+</body>
+</html>

@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dito Lambari - Finalizar Pagamento</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <style>
+        .card {
+            height: 100%;
+        }
+        .card-img-top {
+            height: 200px;
+            object-fit: cover;
+            transition: transform 0.3s ease-in-out;
+        }
+        .card-img-top:hover {
+            transform: translateY(-10px);
+        }
+        .order-controls {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .quantity-input {
+            width: 50px;
+            margin-right: 10px;
+            text-align: center;
+        }
+        .price {
+            margin-bottom: 15px;
+        }
+        .payment-form input {
+            width: 100%;
+        }
+        .payment-form input[type="text"] {
+            width: calc(100% - 50px);
+            display: inline-block;
+        }
+    </style>
+    <script>
+        $(document).ready(function() {
+            // Função para exibir os itens do carrinho na página de checkout
+            function displayCartItems() {
+                const urlParams = new URLSearchParams(window.location.search);
+                const cartItems = JSON.parse(urlParams.get('items'));
+                let totalAmount = 0;
+
+                let itemList = '';
+                cartItems.forEach(item => {
+                    const itemTotal = item.quantity * item.price;
+                    totalAmount += itemTotal;
+                    itemList += `<li>${item.name} - ${item.quantity} x R$${item.price.toFixed(2)} = R$${itemTotal.toFixed(2)}</li>`;
+                });
+
+                $('#cart').html(itemList);
+                $('#totalAmount').text(`R$${totalAmount.toFixed(2)}`);
+            }
+
+            displayCartItems();
+
+            // Ajustar o número do cartão para 16 dígitos
+            $('#numeroCartao').on('input', function() {
+                this.value = this.value.replace(/\D/g, '').slice(0, 16);
+            });
+        });
+    </script>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <a class="navbar-brand" href="index.html">Dito Lambari</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="index.html">Página Principal</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="sobre.html">Sobre</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="receitas.html">Receitas</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="contato.html">Contato</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link btn btn-light text-primary" href="pedido.html">Pedido</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="container my-5">
+        <h1 class="text-center">Finalizar Pagamento</h1>
+        <div class="row">
+            <div class="col-md-6">
+                <h3>Detalhes do Pedido</h3>
+                <ul id="cart" class="list-unstyled">
+                    <!-- Itens do carrinho serão inseridos aqui via JavaScript -->
+                </ul>
+                <p><strong>Valor Total: </strong><span id="totalAmount">R$0,00</span></p>
+            </div>
+
+            <div class="col-md-6">
+                <h3>Forma de Pagamento</h3>
+                <form id="checkout-form">
+                    <div class="payment-form">
+                        <div class="form-group">
+                            <label for="numeroCartao">Número do Cartão:</label>
+                            <input type="text" class="form-control" id="numeroCartao" name="numeroCartao" maxlength="16" placeholder="1234 5678 9012 3456" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="validadeCartao">Validade:</label>
+                            <input type="text" class="form-control" id="validadeCartao" name="validadeCartao" placeholder="MM/AAAA" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="codigoSeguranca">Código de Segurança:</label>
+                            <input type="text" class="form-control" id="codigoSeguranca" name="codigoSeguranca" required>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary mt-3">Confirmar Pagamento</button>
+                </form>
+            </div>
+        </div>
+    </main>
+
+    <footer class="text-center py-4 bg-primary text-white">
+        <p>&copy; 2024 Dito Lambari. Todos os direitos reservados.</p>
+    </footer>
+</body>
+</html>

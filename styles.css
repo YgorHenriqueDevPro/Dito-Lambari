@@ -1,0 +1,70 @@
+.payment-logo {
+    width: 50px;
+    height: auto;
+    margin: 5px;
+}
+
+.payment-logo:hover {
+    transform: scale(1.1);
+    transition: transform 0.3s ease;
+}
+
+#statusPedido {
+    padding: 20px;
+    border-radius: 5px;
+}
+
+#statusPedido.alert-info {
+    background-color: #d1ecf1;
+    color: #0c5460;
+}
+
+<style>
+    /* Estilizando o botão */
+    .botao-copiar {
+        background-color: #007bff; /* Cor de fundo do botão */
+        color: white; /* Cor do texto */
+        border: none; /* Remove a borda padrão */
+        padding: 10px 20px; /* Espaçamento interno (padding) */
+        text-align: center; /* Alinhamento do texto */
+        text-decoration: none; /* Remove o sublinhado do texto (se for um link) */
+        display: inline-block; /* Faz com que o botão respeite o tamanho do conteúdo */
+        font-size: 16px; /* Tamanho da fonte */
+        margin: 4px 2px; /* Espaçamento externo (margin) */
+        cursor: pointer; /* Muda o cursor para indicar que é clicável */
+        border-radius: 4px; /* Bordas arredondadas */
+        transition: background-color 0.3s, transform 0.2s; /* Transições suaves para efeitos */
+    }
+
+    /* Efeito de hover para o botão */
+    .botao-copiar:hover {
+        background-color: #0056b3; /* Cor de fundo quando o mouse está sobre o botão */
+        transform: scale(1.05); /* Aumenta um pouco o tamanho do botão */
+    }
+
+    /* Efeito de foco para o botão */
+    .botao-copiar:focus {
+        outline: none; /* Remove o contorno padrão quando o botão está em foco */
+        box-shadow: 0 0 0 2px rgba(38, 143, 255, 0.5); /* Adiciona uma sombra ao redor do botão quando focado */
+    }
+</style>
+
+<div>
+    <label for="pix-key">Chave PIX:</label>
+    <input type="text" id="pix-key" value="sua-chave-pix-aqui" readonly>
+    <button class="botao-copiar" onclick="copiarPix()">Copiar</button>
+</div>
+
+<script>
+    function copiarPix() {
+        var copyText = document.getElementById("pix-key");
+        copyText.select();
+        copyText.setSelectionRange(0, 99999); // Para dispositivos móveis
+
+        // Copiar o texto
+        navigator.clipboard.writeText(copyText.value);
+
+        // Alerta de sucesso (opcional)
+        alert("Chave PIX copiada para a área de transferência.");
+    }
+</script>

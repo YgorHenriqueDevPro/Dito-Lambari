@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dito Lambari - Pedido</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <style>
+        .order-item {
+            border-bottom: 1px solid #ddd;
+            padding: 10px 0;
+        }
+
+        .order-item:last-child {
+            border-bottom: none;
+        }
+
+        .total-price {
+            font-weight: bold;
+            font-size: 1.25em;
+        }
+
+        .payment-method {
+            margin-bottom: 20px;
+        }
+
+        .payment-method input {
+            margin-right: 10px;
+        }
+
+        .confirm-button {
+            margin-top: 20px;
+        }
+    </style>
+    <script>
+        $(document).ready(function() {
+            function displayOrderSummary() {
+                var cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
+                var total = 0;
+                var orderList = $('#order-list');
+
+                orderList.empty(); // Limpa a lista atual
+
+                cartItems.forEach(function(item) {
+                    var price = parseFloat(item.price.replace('R$', '').replace(',', '.'));
+                    var itemTotal = (price * item.quantity).toFixed(2);
+                    total += price * item.quantity;
+                    orderList.append(
+                        `<div class="order-item">
+                            ${item.name} - ${item.quantity} x <span class="item-price">${item.price}</span> - <span class="total-price">R$ ${itemTotal.replace('.', ',')}</span>
+                        </div>`
+                    );
+                });
+
+                $('#order-total').text('R$ ' + total.toFixed(2).replace('.', ','));
+            }
+
+            function validateForm() {
+                var isValid = true;
+
+                // Verifica se o campo do número do cartão está preenchido corretamente
+                var cardNumber = $('#card-number').val().replace(/\s+/g, '');
+                if (cardNumber.length !== 16 || isNaN(cardNumber)) {
+                    isValid = false;
+                    $('#card-number').addClass('is-invalid');
+                } else {
+                    $('#card-number').removeClass('is-invalid');
+                }
+
+                // Verifica se o CVV está preenchido corretamente
+                var cvv = $('#card-cvv').val();
+                if (cvv.length !== 3 || isNaN(cvv)) {
+                    isValid = false;
+                    $('#card-cvv').addClass('is-invalid');
+                } else {
+                    $('#card-cvv').removeClass('is-invalid');
+                }
+
+                // Verifica se a data de vencimento está no formato correto
+                var expiryDate = $('#card-expiry').val();
+                var datePattern = /^(0[1-9]|1[0-2])\/(2[0-9])$/; // MM/YY
+                if (!datePattern.test(expiryDate)) {
+                    isValid = false;
+                    $('#card-expiry').addClass('is-invalid');
+                } else {
+                    $('#card-expiry').removeClass('is-invalid');
+                }
+
+                return isValid;
+            }
+
+            $('#confirm-order').on('click', function(e) {
+                e.preventDefault();
+                if (validateForm()) {
+                    alert('Pedido confirmado!'); // Simula a confirmação do pedido
+                    // Redirecionar ou processar o pedido
+                } else {
+                    alert('Por favor, preencha todos os campos corretamente.');
+                }
+            });
+
+            displayOrderSummary();
+        });
+    </script>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <a class="navbar-brand" href="index.html">Dito Lambari</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="index.html">Página Principal</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="sobre.html">Sobre</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="receitas.html">Cardápio</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="contato.html">Contato</a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link btn btn-light text-primary" href="pedido.html">Pedido</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="container my-5">
+        <h1 class="text-center">Resumo do Pedido</h1>
+        <div id="order-summary">
+            <h2>Itens Selecionados</h2>
+            <div id="order-list">
+                <!-- Itens do pedido serão exibidos aqui -->
+            </div>
+            <h3 class="text-right total-price">Total: <span id="order-total">R$ 0,00</span></h3>
+        </div>
+
+        <h2 class="mt-5">Informações de Pagamento</h2>
+        <form id="payment-form">
+            <div class="payment-method">
+                <label for="payment-method">Método de Pagamento:</label>
+                <select id="payment-method" class="form-control" required>
+                    <option value="credit-card">Cartão de Crédito</option>
+                    <option value="pix">PIX</option>
+                    <option value="cash">Dinheiro</option>
+                </select>
+            </div>
+
+            <div id="credit-card-info" class="payment-method">
+                <div class="form-group">
+                    <label for="card-number">Número do Cartão:</label>
+                    <input type="text" id="card-number" class="form-control" placeholder="1234 5678 9012 3456" maxlength="19" required>
+                    <div class="invalid-feedback">Número do cartão inválido.</div>
+                </div>
+                <div class="form-group">
+                    <label for="card-expiry">Data de Vencimento:</label>
+                    <input type="text" id="card-expiry" class="form-control" placeholder="MM/YY" maxlength="5" required>
+                    <div class="invalid-feedback">Data de vencimento inválida.</div>
+                </div>
+                <div class="form-group">
+                    <label for="card-cvv">CVV:</label>
+                    <input type="text" id="card-cvv" class="form-control" placeholder="123" maxlength="3" required>
+                    <div class="invalid-feedback">CVV inválido.</div>
+                </div>
+            </div>
+
+            <button id="confirm-order" class="btn btn-primary confirm-button">Confirmar Pedido</button>
+        </form>
+    </main>
+
+    <footer class="bg-primary text-white text-center py-3">
+        <p>&copy; 2024 Dito Lambari. Todos os direitos reservados.</p>
+    </footer>
+</body>
+</html>
